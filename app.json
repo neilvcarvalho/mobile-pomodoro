@@ -1,0 +1,12 @@
+{
+  "name": "mobile-pomodoro",
+  "displayName": "mobile-pomodoro",
+  "expo": {
+    "name": "mobile-pomodoro",
+    "slug": "mobile-pomodoro",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
