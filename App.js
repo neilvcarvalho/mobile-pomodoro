@@ -1,92 +1,61 @@
 import { StatusBar } from 'expo-status-bar'
-import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
 import { Button } from 'react-native-paper'
+import Timer from './components/Timer'
+import TimerClock from './components/TimerClock'
 
 export default function App() {
-  const POMODORO_LENGTH = 60 * 25
-  const SMALL_BREAK_LENGTH = 60 * 5
-  const LONG_BREAK_LENGTH = 60 * 15
+  const POMODORO = { id: 'POMODORO', name: 'Pomodoro', length: 1000 * 10, style: 'pomodoro' }
+  const SMALL_BREAK = { id: 'SMALL_BREAK', name: 'Small Break', length: 1000 * 5, style: 'break' }
+  const LONG_BREAK = { id: 'LONG_BREAK', name: 'Long Break', length: 1000 * 7, style: 'break' }
 
-  const POMODORO = 'POMODORO'
-  const SMALL_BREAK = 'SMALL_BREAK'
-  const LONG_BREAK = 'LONG_BREAK'
-
-  const [remainingTime, setRemainingTime] = useState(POMODORO_LENGTH)
-  const [currentInterval, setCurrentInterval] = useState()
   const [pomodorosCount, setPomodorosCount] = useState(0)
-  const [breaksCount, setBreaksCount] = useState(0)
   const [currentCycle, setCurrentCycle] = useState(POMODORO)
+  const [timer, setTimer] = useState()
+
+
+  useEffect(() => {
+  }, [currentCycle])
 
   const start = () => {
-    setCurrentInterval(setInterval(decrement, 1000))
-  }
+    const now = Date.now()
 
-  const pause = () => {
-    clearCurrentInterval()
-  }
-
-  const resume = () => {
-    setCurrentInterval(setInterval(decrement, 1000))
+    setTimer({ startTime: now, endTime: now + currentCycle.length })
   }
 
   const stop = () => {
-    clearCurrentInterval()
-    setCurrentInterval(undefined)
-    setRemainingTime(POMODORO_LENGTH)
-  }
-
-  const clearCurrentInterval = () => {
-    clearInterval(currentInterval)
-    setCurrentInterval(undefined)
-  }
-
-  const decrement = () => {
-    setRemainingTime((prev) => prev - 1)
+    setCurrentCycle(POMODORO)
+    setTimer(undefined)
   }
 
   const prepareNextCycle = () => {
-    switch (currentCycle) {
-      case POMODORO:
-        clearCurrentInterval()
-        setPomodorosCount((prev) => prev + 1)
+    setTimer(undefined)
 
-        if ((pomodorosCount + 1) % 4 === 0) {
-          setRemainingTime(LONG_BREAK_LENGTH)
-          setCurrentCycle(LONG_BREAK)
-        } else {
-          setRemainingTime(SMALL_BREAK_LENGTH)
-          setCurrentCycle(SMALL_BREAK)
-        }
-        break
-      case SMALL_BREAK:
-      case LONG_BREAK:
-        setCurrentCycle(POMODORO)
-        clearCurrentInterval()
-        setRemainingTime(POMODORO_LENGTH)
-        setBreaksCount((prev) => prev + 1)
-      default:
-        setCurrentCycle(POMODORO)
-        break
+    if (currentCycle.id == POMODORO.id) {
+      prepareBreakCycle()
+    } else {
+      setCurrentCycle(POMODORO)
     }
   }
 
-  if (remainingTime <= 0) {
-    prepareNextCycle()
+  const prepareBreakCycle = () => {
+    setPomodorosCount((prev) => prev + 1)
+
+    if ((pomodorosCount + 1) % 4 === 0) {
+      setCurrentCycle(LONG_BREAK)
+    } else {
+      setCurrentCycle(SMALL_BREAK)
+    }
   }
 
-  console.log('Current interval', currentInterval)
-
-  const formattedTime = new Date(remainingTime * 1000).toISOString().substr(14, 5)
-
   return (
-    <View style={[styles.container, currentCycle === POMODORO ? styles.pomodoroBackground : styles.breakBackground]}>
-      <Text style={{fontSize: 30}}>{formattedTime}</Text>
+    <View style={[styles.container, styles[currentCycle.style]]}>
+      {timer === undefined && <TimerClock remainingTime={currentCycle.length} />}
+      {timer === undefined && <Button onPress={start}>Start {currentCycle.name}</Button>}
 
-      {currentInterval === undefined && <Button onPress={start}>Start</Button>}
-      {currentInterval !== undefined && <Button onPress={stop}>Stop</Button>}
-      {currentInterval !== undefined && <Button onPress={pause}>Pause</Button>}
-      {currentInterval === undefined && <Button onPress={resume}>Resume</Button>}
+      {timer !== undefined && <Timer timer={timer} length={currentCycle.length} prepareNextCycle={prepareNextCycle} />}
+      {timer !== undefined && <Button onPress={stop}>Stop {currentCycle.name}</Button>}
       <StatusBar style="auto" />
     </View>
   )
@@ -95,14 +64,13 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pomodoroBackground: {
+  pomodoro: {
     backgroundColor: 'orange'
   },
-  breakBackground: {
+  break: {
     backgroundColor: 'lightblue'
   }
 })
