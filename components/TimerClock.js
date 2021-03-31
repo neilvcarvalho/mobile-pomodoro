@@ -6,7 +6,7 @@ export default function TimerClock ({ remainingTime }) {
 
   return (
     <View>
-      <Text style={{fontSize: 30}}>{formattedTime}</Text>
+      <Text style={{fontSize: 50, color: 'white'}}>{formattedTime}</Text>
     </View>
   )
 }

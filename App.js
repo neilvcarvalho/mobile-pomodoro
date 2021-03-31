@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import { Button } from 'react-native-paper'
+import { LinearGradient } from 'expo-linear-gradient'
 import Timer from './components/Timer'
 import TimerClock from './components/TimerClock'
+import RoundedButton from './components/RoundedButton'
 
 export default function App() {
-  const POMODORO = { id: 'POMODORO', name: 'Pomodoro', length: 1000 * 10, style: 'pomodoro' }
-  const SMALL_BREAK = { id: 'SMALL_BREAK', name: 'Small Break', length: 1000 * 5, style: 'break' }
-  const LONG_BREAK = { id: 'LONG_BREAK', name: 'Long Break', length: 1000 * 7, style: 'break' }
+  const POMODORO = { id: 'POMODORO', name: 'Pomodoro', length: 1000 * 60 * 25, colors: ['red', 'orange'] }
+  const SMALL_BREAK = { id: 'SMALL_BREAK', name: 'Small Break', length: 1000 * 60 * 5, colors: ['blue', 'cyan'] }
+  const LONG_BREAK = { id: 'LONG_BREAK', name: 'Long Break', length: 1000 * 60 * 15, colors: ['blue', 'cyan'] }
 
   const [pomodorosCount, setPomodorosCount] = useState(0)
   const [currentCycle, setCurrentCycle] = useState(POMODORO)
@@ -50,13 +51,15 @@ export default function App() {
   }
 
   return (
-    <View style={[styles.container, styles[currentCycle.style]]}>
-      {timer === undefined && <TimerClock remainingTime={currentCycle.length} />}
-      {timer === undefined && <Button onPress={start}>Start {currentCycle.name}</Button>}
+    <View style={styles.container}>
+      <StatusBar style="light" />
+      <LinearGradient colors={currentCycle.colors} style={styles.background}>
+        {timer === undefined && <TimerClock remainingTime={currentCycle.length} />}
+        {timer === undefined && <RoundedButton onPress={start} mode='contained'>Start {currentCycle.name}</RoundedButton>}
 
-      {timer !== undefined && <Timer timer={timer} length={currentCycle.length} prepareNextCycle={prepareNextCycle} />}
-      {timer !== undefined && <Button onPress={stop}>Stop {currentCycle.name}</Button>}
-      <StatusBar style="auto" />
+        {timer !== undefined && <Timer timer={timer} length={currentCycle.length} prepareNextCycle={prepareNextCycle} />}
+        {timer !== undefined && <RoundedButton onPress={stop} mode='contained'>Stop {currentCycle.name}</RoundedButton>}
+      </LinearGradient>
     </View>
   )
 }
@@ -66,11 +69,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
-  pomodoro: {
-    backgroundColor: 'orange'
-  },
-  break: {
-    backgroundColor: 'lightblue'
+  background: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: '100%',
+    width: '100%'
   }
 })
