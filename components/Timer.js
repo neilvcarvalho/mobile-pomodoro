@@ -1,7 +1,10 @@
+import { useKeepAwake } from 'expo-keep-awake';
 import React, { useEffect, useState } from 'react'
 import TimerClock from './TimerClock';
 
 export default function Timer ({ timer, prepareNextCycle, length }) {
+  useKeepAwake()
+
   const [remainingTime, setRemainingTime] = useState(length)
 
   useEffect(() => {
