@@ -1,15 +1,15 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Vibration } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import Timer from './components/Timer'
 import TimerClock from './components/TimerClock'
 import RoundedButton from './components/RoundedButton'
 
 export default function App() {
-  const POMODORO = { id: 'POMODORO', name: 'Pomodoro', length: 1000 * 1 * 25, colors: ['red', 'orange'] }
-  const SMALL_BREAK = { id: 'SMALL_BREAK', name: 'Small Break', length: 1000 * 1 * 5, colors: ['blue', 'cyan'] }
-  const LONG_BREAK = { id: 'LONG_BREAK', name: 'Long Break', length: 1000 * 1 * 15, colors: ['blue', 'cyan'] }
+  const POMODORO = { id: 'POMODORO', name: 'Pomodoro', length: 1000 * 60 * 25, colors: ['red', 'orange'] }
+  const SMALL_BREAK = { id: 'SMALL_BREAK', name: 'Small Break', length: 1000 * 60 * 5, colors: ['blue', 'cyan'] }
+  const LONG_BREAK = { id: 'LONG_BREAK', name: 'Long Break', length: 1000 * 60 * 15, colors: ['blue', 'cyan'] }
 
   const [pomodorosCount, setPomodorosCount] = useState(0)
   const [currentCycle, setCurrentCycle] = useState(POMODORO)
@@ -32,6 +32,7 @@ export default function App() {
 
   const prepareNextCycle = () => {
     setTimer(undefined)
+    Vibration.vibrate()
 
     if (currentCycle.id == POMODORO.id) {
       prepareBreakCycle()
