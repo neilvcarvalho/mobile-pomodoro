@@ -8,7 +8,7 @@ export default function Timer ({ timer, prepareNextCycle, length }) {
   const [remainingTime, setRemainingTime] = useState(length)
 
   useEffect(() => {
-    const interval = setInterval(calculateRemainingTime, 300);
+    const interval = setInterval(calculateRemainingTime, 100);
     return () => clearInterval(interval)
   }, [])
 
@@ -20,7 +20,7 @@ export default function Timer ({ timer, prepareNextCycle, length }) {
 
   const calculateRemainingTime = () => {
     const now = Date.now()
-    setRemainingTime(timer.endTime - now)
+    setRemainingTime(Math.ceil((timer.endTime - now) / 1000) * 1000)
   }
 
   return (
