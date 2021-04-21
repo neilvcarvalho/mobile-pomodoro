@@ -1,15 +1,18 @@
 {
-  "name": "mobile-pomodoro",
-  "displayName": "mobile-pomodoro",
+  "name": "Pomodoro DND",
+  "displayName": "Pomodoro DND",
   "expo": {
-    "name": "mobile-pomodoro",
-    "slug": "mobile-pomodoro",
-    "version": "1.0.0",
+    "name": "Pomodoro DND",
+    "description": "Manage your time with the Pomodoro Technique and show your colleagues you are busy, automatically setting Slack and Discord to Do Not Disturb.",
+    "slug": "pomodoro-dnd",
+    "icon": "icons/playstore.png",
+    "version": "0.0.1",
     "assetBundlePatterns": [
       "**/*"
     ],
     "android": {
-      "package": "pro.neil.pomodoro"
+      "package": "pro.neil.pomodoro",
+      "versionCode": 1
     }
   }
 }
