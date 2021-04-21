@@ -5,7 +5,7 @@
     "name": "Pomodoro DND",
     "description": "Manage your time with the Pomodoro Technique and show your colleagues you are busy, automatically setting Slack and Discord to Do Not Disturb.",
     "slug": "pomodoro-dnd",
-    "icon": "icons/new_playstore.png",
+    "icon": "icons/playstore.png",
     "version": "0.0.3",
     "assetBundlePatterns": [
       "**/*"
