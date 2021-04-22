@@ -6,13 +6,13 @@
     "description": "Manage your time with the Pomodoro Technique and show your colleagues you are busy, automatically setting Slack and Discord to Do Not Disturb.",
     "slug": "pomodoro-dnd",
     "icon": "icons/playstore.png",
-    "version": "0.0.3",
+    "version": "0.0.5",
     "assetBundlePatterns": [
       "**/*"
     ],
     "android": {
       "package": "pro.neil.pomodoro",
-      "versionCode": 3
+      "versionCode": 5
     }
   }
 }

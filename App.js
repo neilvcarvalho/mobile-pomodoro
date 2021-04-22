@@ -8,9 +8,9 @@ import RoundedButton from './components/RoundedButton'
 import { clearLocalNotification, setLocalNotification, formatNotification } from './utils/helpers'
 
 export default function App() {
-  const POMODORO = { id: 'POMODORO', name: 'Pomodoro', length: 1000 * 10, colors: ['red', 'orange'], notificationTitle: 'Pomodoro has ended.', notificationBody: 'Time to rest!' }
-  const SMALL_BREAK = { id: 'SMALL_BREAK', name: 'Small Break', length: 1000 * 5, colors: ['blue', 'cyan'], notificationTitle: 'Break has ended.', notificationBody: 'Time to work!' }
-  const LONG_BREAK = { id: 'LONG_BREAK', name: 'Long Break', length: 1000 * 7, colors: ['blue', 'cyan'], notificationTitle: 'Break has ended.', notificationBody: 'Time to work!' }
+  const POMODORO = { id: 'POMODORO', name: 'Pomodoro', length: 1000 * 160 * 25, colors: ['red', 'orange'], notificationTitle: 'Pomodoro has ended.', notificationBody: 'Time to rest!' }
+  const SMALL_BREAK = { id: 'SMALL_BREAK', name: 'Small Break', length: 1000 * 60 * 5, colors: ['blue', 'cyan'], notificationTitle: 'Break has ended.', notificationBody: 'Time to work!' }
+  const LONG_BREAK = { id: 'LONG_BREAK', name: 'Long Break', length: 1000 * 60 * 15, colors: ['blue', 'cyan'], notificationTitle: 'Break has ended.', notificationBody: 'Time to work!' }
 
   const [pomodorosCount, setPomodorosCount] = useState(0)
   const [currentCycle, setCurrentCycle] = useState(POMODORO)
